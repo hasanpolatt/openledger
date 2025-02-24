@@ -15,7 +15,9 @@ class BaseLedgerOperation(EnumMeta):
     def __new__(mcs, name, bases, namespace):
         if bases and bases[0] != Enum:
             # Check all shared operations are implemented
-            missing_ops = mcs.shared_operations - {k for k, v in namespace.items() if not k.startswith('_')}
+            missing_ops = mcs.shared_operations - {
+                k for k, v in namespace.items() if not k.startswith("_")
+            }
             if missing_ops:
                 raise TypeError(f"Missing required shared operations: {missing_ops}")
         return super().__new__(mcs, name, bases, namespace)
@@ -23,6 +25,7 @@ class BaseLedgerOperation(EnumMeta):
 
 class SharedLedgerOperation(Enum, metaclass=BaseLedgerOperation):
     """Ledger operations that must be implemented by all applications"""
+
     DAILY_REWARD = "DAILY_REWARD"
     SIGNUP_CREDIT = "SIGNUP_CREDIT"
     CREDIT_SPEND = "CREDIT_SPEND"
@@ -35,6 +38,7 @@ class SharedLedgerOperation(Enum, metaclass=BaseLedgerOperation):
 
 class LedgerEntry(BaseModel):
     """Pydantic model for ledger entries"""
+
     id: int | None = None
     operation: SharedLedgerOperation
     amount: int
@@ -42,7 +46,7 @@ class LedgerEntry(BaseModel):
     owner_id: str
     created_on: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
-    class Config():
+    class Config:
         from_attributes: True
 
 
@@ -54,10 +58,14 @@ LEDGER_OPERATION_CONFIG: dict[str, int] = {
 }
 
 
-def register_ledger_operation(operation_class: Type[Enum], config: dict[str, int]) -> None:
+def register_ledger_operation(
+    operation_class: Type[Enum], config: dict[str, int]
+) -> None:
     """Register ledger operations for a specific application"""
-    if not all(op.value in {item.value for item in operation_class}
-               for op in SharedLedgerOperation):
+    if not all(
+        op.value in {item.value for item in operation_class}
+        for op in SharedLedgerOperation
+    ):
         raise ValueError("Implementation must include all shared ledger operations")
 
     LEDGER_OPERATION_CONFIG.update(config)
