@@ -1,5 +1,6 @@
 from datetime import datetime, timezone
 from enum import Enum, EnumMeta
+from typing import Type
 
 from pydantic import BaseModel, Field
 
@@ -53,3 +54,10 @@ LEDGER_OPERATION_CONFIG: dict[str, int] = {
 }
 
 
+def register_ledger_operation(operation_class: Type[Enum], config: dict[str, int]) -> None:
+    """Register ledger operations for a specific application"""
+    if not all(op.value in {item.value for item in operation_class}
+               for op in SharedLedgerOperation):
+        raise ValueError("Implementation must include all shared ledger operations")
+
+    LEDGER_OPERATION_CONFIG.update(config)
