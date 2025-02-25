@@ -18,8 +18,11 @@ class TravelAILedgerEntryModel(Base):
     operation: Mapped[TravelAILedgerOperation] = mapped_column(
         Enum(TravelAILedgerOperation), nullable=False
     )
-    amount: Mapped[int] = mapped_column(Integer, nullable=False)
+    amount: Mapped[int] = mapped_column(Integer, nullable=False)  # Seyahat harcamaları için float
     category: Mapped[str] = mapped_column(String, nullable=False)  # flight, hotel, activity
+    currency: Mapped[str] = mapped_column(String, nullable=False, default="USD")  # USD, EUR, TRY
+    status: Mapped[str] = mapped_column(String, nullable=False, default="completed")  # pending, completed, failed
+    description: Mapped[Optional[str]] = mapped_column(String, nullable=True)  # İşlem açıklaması
     nonce: Mapped[str] = mapped_column(String, nullable=False, unique=True)
     owner_id: Mapped[str] = mapped_column(String, nullable=False)
     created_on: Mapped[datetime] = mapped_column(
