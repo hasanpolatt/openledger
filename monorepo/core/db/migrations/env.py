@@ -5,8 +5,8 @@ from sqlalchemy import pool
 
 from alembic import context
 
-from monorepo.core.db.models import Base
-from monorepo.core.config import SQLALCHEMY_DATABASE_URI
+from core.db.models import Base
+from core.config import SQLALCHEMY_DATABASE_URI
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
