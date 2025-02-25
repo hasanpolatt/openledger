@@ -1,7 +1,6 @@
 from fastapi import APIRouter
+from monorepo.core.ledgers.services.base_ledger_service import BaseLedgerService
 
-from monorepo.core.ledgers.services.base_ledger_service import \
-    BaseLedgerService
 
 router = APIRouter()
 ledger_service = BaseLedgerService()  # routers should use the ledger service from the core
