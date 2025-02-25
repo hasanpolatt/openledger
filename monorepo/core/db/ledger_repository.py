@@ -1,7 +1,5 @@
 from typing import Optional
-import uuid
-
-from sqlalchemy import select, func, case
+from sqlalchemy import select, func
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
@@ -11,10 +9,6 @@ from monorepo.core.db.models import LedgerEntry
 class LedgerRepository:
     # This class should be used for db operations
     def create_entry(self, session: Session, entry: LedgerEntry) -> LedgerEntry:
-        # If owner_id does not exist, generate UUID
-        if not entry.owner_id:
-            entry.owner_id = str(uuid.uuid4())
-
         db_entry = LedgerEntry(
             operation=entry.operation,
             amount=entry.amount,
