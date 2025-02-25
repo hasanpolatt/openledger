@@ -19,8 +19,8 @@ class LedgerEntry(Base):
         Enum(SharedLedgerOperation), nullable=False
     )
     amount: Mapped[int] = mapped_column(Integer, nullable=False)
-    nonce: Mapped[str] = mapped_column(String, nullable=False, unique=True)
-    owner_id: Mapped[str] = mapped_column(String, nullable=False)
+    nonce: Mapped[str] = mapped_column(String(50), nullable=False, unique=True)
+    owner_id: Mapped[str] = mapped_column(String(50), nullable=False)
     created_on: Mapped[datetime] = mapped_column(
         DateTime, nullable=False, default=lambda: datetime.now(timezone.utc)
     )
