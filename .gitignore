@@ -2,11 +2,8 @@
 __pycache__/
 *.py[cod]
 *$py.class
-.idea
 # C extensions
 *.so
-.venv
-.env
 env
 .env.*
 gateway/.env
@@ -133,3 +130,10 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# SQLite database files
+*.db
+*.sqlite
+*.sqlite3
+
+# SQLite veritabanı dosyalarını .gitignore'a ekliyorum
