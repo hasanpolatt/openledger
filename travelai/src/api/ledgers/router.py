@@ -9,7 +9,7 @@ from travelai.src.core.db.database import get_db
 
 from .schemas import OperationRequest, TravelAILedgerOperation
 
-router = APIRouter(prefix="/ledger", tags=["ledger"])
+router = APIRouter(prefix="/ledger", tags=["ledger"], dependencies=[Depends(get_db)])
 
 
 @router.get("/{owner_id}", response_model=int)

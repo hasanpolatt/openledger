@@ -9,7 +9,7 @@ from healthai.src.core.db.database import get_db
 
 from .schemas import OperationRequest, HealthAILedgerOperation
 
-router = APIRouter(prefix="/ledger", tags=["ledger"])
+router = APIRouter(prefix="/ledger", tags=["ledger"], dependencies=[Depends(deps.get_api_key)])
 
 
 @router.get("/{owner_id}", response_model=int)
