@@ -1,3 +1,5 @@
+from enum import Enum
+
 from monorepo.core.ledgers.schemas import (
     SharedLedgerOperation,
     register_ledger_operation,
@@ -5,13 +7,13 @@ from monorepo.core.ledgers.schemas import (
 from pydantic import BaseModel
 
 
-class TravelAILedgerOperation(SharedLedgerOperation):
+class TravelAILedgerOperation(Enum):
     """Travel AI specific ledger operations"""
-
-    DAILY_REWARD = "DAILY_REWARD"
-    SIGNUP_CREDIT = "SIGNUP_CREDIT"
-    CREDIT_SPEND = "CREDIT_SPEND"
-    CREDIT_ADD = "CREDIT_ADD"
+    # Required shared operations
+    DAILY_REWARD = SharedLedgerOperation.DAILY_REWARD.value
+    SIGNUP_CREDIT = SharedLedgerOperation.SIGNUP_CREDIT.value
+    CREDIT_SPEND = SharedLedgerOperation.CREDIT_SPEND.value
+    CREDIT_ADD = SharedLedgerOperation.CREDIT_ADD.value
 
     # Content operations
     CONTENT_CREATION = "CONTENT_CREATION"
@@ -33,13 +35,11 @@ TRAVEL_OPERATION_CONFIG = {
     TravelAILedgerOperation.GROUP_ORGANIZE.value: 5,
 }
 
-
 register_ledger_operation(TravelAILedgerOperation, TRAVEL_OPERATION_CONFIG)
 
 
 class OperationRequest(BaseModel):
     """Request model for ledger operations"""
-
     owner_id: str
-    operation: TravelAILedgerOperation  # Use Enum directly for type safety
+    operation: TravelAILedgerOperation
     nonce: str | None = None
