@@ -6,10 +6,11 @@ from monorepo.core.ledgers.schemas import LedgerEntry
 from monorepo.core.ledgers.services.base_ledger_service import BaseLedgerService
 from sqlalchemy.orm import Session
 from travelai.src.core.db.database import get_db
+from . import deps
 
 from .schemas import OperationRequest, TravelAILedgerOperation
 
-router = APIRouter(prefix="/ledger", tags=["ledger"], dependencies=[Depends(get_db)])
+router = APIRouter(prefix="/ledger", tags=["ledger"], dependencies=[Depends(deps.get_api_key)])
 
 
 @router.get("/{owner_id}", response_model=int)

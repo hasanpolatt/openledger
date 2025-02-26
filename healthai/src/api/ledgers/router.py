@@ -6,6 +6,7 @@ from monorepo.core.ledgers.schemas import LedgerEntry
 from monorepo.core.ledgers.services.base_ledger_service import BaseLedgerService
 from sqlalchemy.orm import Session
 from healthai.src.core.db.database import get_db
+from . import deps
 
 from .schemas import OperationRequest, HealthAILedgerOperation
 
