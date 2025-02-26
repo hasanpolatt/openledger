@@ -4,7 +4,7 @@ from typing import Optional
 from sqlalchemy import DateTime, Enum, Float, Integer, String
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
-from api.ledgers.schemas import TravelAILedgerOperation
+from travelai.src.api.ledgers.schemas import TravelAILedgerOperation
 
 
 class Base(DeclarativeBase):

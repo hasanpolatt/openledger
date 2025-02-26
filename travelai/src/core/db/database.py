@@ -2,7 +2,7 @@ from sqlalchemy import create_engine, Engine
 from sqlalchemy.orm import sessionmaker, Session
 from sqlalchemy.ext.declarative import declarative_base
 
-from core.config import SQLALCHEMY_DATABASE_URI
+from travelai.src.core.config import SQLALCHEMY_DATABASE_URI
 
 def create_database_engine(database_url: str) -> Engine:
     """Create SQLAlchemy engine with connection pooling and keepalive settings
