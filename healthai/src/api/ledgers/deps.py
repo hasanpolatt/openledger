@@ -20,9 +20,9 @@ def get_db() -> Generator[Session, None, None]:
 
 
 def get_api_key(
-        api_key_query: str = Security(X_API_KEY_QUERY),
-        api_key_header: str = Security(X_API_KEY_HEADER),
-        session: Session = Depends(get_db),
+    api_key_query: str = Security(X_API_KEY_QUERY),
+    api_key_header: str = Security(X_API_KEY_HEADER),
+    session: Session = Depends(get_db),
 ) -> Token:
     x_api_key = api_key_query or api_key_header
 

@@ -1,15 +1,16 @@
-from sqlalchemy import create_engine, Engine
-from sqlalchemy.orm import sessionmaker, Session
+from sqlalchemy import Engine, create_engine
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import Session, sessionmaker
 
 from travelai.src.core.config import SQLALCHEMY_DATABASE_URI
 
+
 def create_database_engine(database_url: str) -> Engine:
     """Create SQLAlchemy engine with connection pooling and keepalive settings
-    
+
     Args:
         database_url: Database connection URL
-        
+
     Returns:
         SQLAlchemy Engine instance
     """
@@ -25,6 +26,7 @@ def create_database_engine(database_url: str) -> Engine:
         },
     )
 
+
 # Create engine instance
 engine = create_database_engine(SQLALCHEMY_DATABASE_URI)
 
@@ -34,12 +36,13 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 # SQLAlchemy model base class
 Base = declarative_base()
 
+
 def get_db() -> Session:
     """Database session dependency
-    
+
     Yields:
         Session: Database session that will be automatically closed
-        
+
     Raises:
         Exception: Any database related exception
     """

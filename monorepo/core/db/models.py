@@ -1,7 +1,8 @@
-from datetime import datetime, timezone
-from typing import final
 import binascii
 import os
+from datetime import datetime, timezone
+from typing import final
+
 from sqlalchemy import DateTime, Enum, Integer, String
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
@@ -13,6 +14,7 @@ class Base(DeclarativeBase):
 
 
 class LedgerEntry(Base):
+    """SQLAlchemy model for ledger entries"""
 
     __tablename__ = "ledger_entries"
 
@@ -32,12 +34,17 @@ class LedgerEntry(Base):
 
 
 def generate_key() -> str:
+    """Generate random key."""
     return binascii.hexlify(os.urandom(20)).decode()
 
 
 @final
 class Token(Base):
+    """Authorization token model."""
+
     __tablename__ = "tokens"
     id = mapped_column(Integer, primary_key=True, index=True)
     key: Mapped[str] = mapped_column(String, unique=True, default=generate_key)
-    created: Mapped[datetime] = mapped_column(DateTime, default=lambda: datetime.now(timezone.utc))
+    created: Mapped[datetime] = mapped_column(
+        DateTime, default=lambda: datetime.now(timezone.utc)
+    )

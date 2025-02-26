@@ -1,6 +1,7 @@
 from logging.config import fileConfig
 
 from alembic import context
+
 from healthai.src.api.ledgers.models import Base
 from healthai.src.core.config import SQLALCHEMY_DATABASE_URI
 
@@ -59,9 +60,7 @@ def run_migrations_online() -> None:
     connectable = create_engine(SQLALCHEMY_DATABASE_URI)
 
     with connectable.connect() as connection:
-        context.configure(
-            connection=connection, target_metadata=target_metadata
-        )
+        context.configure(connection=connection, target_metadata=target_metadata)
 
         with context.begin_transaction():
             context.run_migrations()
