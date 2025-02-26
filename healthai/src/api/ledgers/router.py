@@ -1,21 +1,40 @@
-from fastapi import APIRouter
+from typing import List
 
-from monorepo.core.ledgers.services.base_ledger_service import \
-    BaseLedgerService
+from fastapi import APIRouter, Depends, HTTPException
+from monorepo.core.db.ledger_repository import LedgerRepository
+from monorepo.core.ledgers.schemas import LedgerEntry
+from monorepo.core.ledgers.services.base_ledger_service import BaseLedgerService
+from sqlalchemy.orm import Session
+from healthai.src.core.db.database import get_db
 
-router = APIRouter()
-ledger_service = BaseLedgerService()  # routers should use the ledger service from the core
+from .schemas import OperationRequest, HealthAILedgerOperation
+
+router = APIRouter(prefix="/ledger", tags=["ledger"])
 
 
-# Example endpoint
-@router.post(
-    "/ledger-entry",
-)
-def add_ledger_entry(
-    operation: ? # What type should this be?
-    owner_id: str,
-    nonce: str,
-    # Other params if needed
-):
-    # Implementation
-    pass
+@router.get("/{owner_id}", response_model=int)
+def get_balance(owner_id: str, session: Session = Depends(get_db)) -> int:
+    """Get the current balance for a specific user."""
+    service = BaseLedgerService(LedgerRepository(), HealthAILedgerOperation)
+    return service.get_balance(session, owner_id)
+
+
+@router.get("/{owner_id}/entries", response_model=List[LedgerEntry])
+def get_ledger_entries(
+    owner_id: str, session: Session = Depends(get_db)
+) -> List[LedgerEntry]:
+    """Get all ledger entries for a specific user."""
+    service = BaseLedgerService(LedgerRepository(), HealthAILedgerOperation)
+    return service.get_ledger_entries(session, owner_id)
+
+
+@router.post("/", response_model=LedgerEntry)
+def create_ledger_entry(
+    request: OperationRequest, session: Session = Depends(get_db)
+) -> LedgerEntry:
+    """Create a new ledger entry."""
+    try:
+        service = BaseLedgerService(LedgerRepository(), HealthAILedgerOperation)
+        return service.process_operation(session, request.owner_id, request.operation)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
