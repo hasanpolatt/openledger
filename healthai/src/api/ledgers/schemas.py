@@ -13,7 +13,7 @@ class HealthAILedgerOperation(Enum):
     SIGNUP_CREDIT = SharedLedgerOperation.SIGNUP_CREDIT.value
     CREDIT_SPEND = SharedLedgerOperation.CREDIT_SPEND.value
     CREDIT_ADD = SharedLedgerOperation.CREDIT_ADD.value
-    
+
     COMPLETE_CHALLENGE = "COMPLETE_CHALLENGE"
     ACHIEVE_GOAL = "ACHIEVE_GOAL"
     REFER_FRIEND = "REFER_FRIEND"
